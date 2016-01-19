@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+	echo "Host parameter is missing"
+	exit 1
+fi
+
+ssh ubuntu@$1.bizlunch.fr -p 22 'bash -s' < ./bin/init-host-script

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/data
+
+exec setuser elasticsearch elasticsearch

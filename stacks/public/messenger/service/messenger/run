@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec nodejs /var/www/app.js

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+	echo "Host parameter is missing"
+	exit 1
+fi
+
+if [ -z "$2" ]
+then
+	echo "Command parameter is missing"
+	exit 1
+fi
+
+ansible -i ansible/inventory.ini $1 -m shell -a "export BZ_ROOT=/var/bizlunch; cd \$BZ_ROOT/infra && $2"

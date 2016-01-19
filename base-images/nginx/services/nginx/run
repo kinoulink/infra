@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ ! -d "/var/cache/nginx" ]; then
+
+	echo "Creating nginx cache folder ..."
+
+	mkdir /var/cache/nginx && chown www-data:www-data /var/cache/nginx
+
+fi
+
+exec nginx -c /etc/service/nginx/config/nginx.conf
