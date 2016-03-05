@@ -1,17 +1,10 @@
 FROM bizlunch/java
 
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
+RUN wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.2.0/elasticsearch-2.2.0.deb && \
+	dpkg -i elasticsearch-2.2.0.deb && \
+	unlink elasticsearch-2.2.0.deb
 
-ENV ELASTICSEARCH_MAJOR 2.1
-ENV ELASTICSEARCH_VERSION 2.1.1
-ENV ELASTICSEARCH_REPO_BASE http://packages.elasticsearch.org/elasticsearch/2.x/debian
-
-RUN echo "deb $ELASTICSEARCH_REPO_BASE stable main" > /etc/apt/sources.list.d/elasticsearch.list
-
-RUN set -x \
-	&& apt-get update \
-	&& apt-get install -y --no-install-recommends elasticsearch=$ELASTICSEARCH_VERSION \
-	&& rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/*
 
 ENV PATH /usr/share/elasticsearch/bin:$PATH
 

@@ -42,6 +42,7 @@ services:
       - 80
     volumes:
       - /var/bizlunch/infra/stacks/public/webapp/nginx:/etc/service/nginx/config:ro
+      - /var/bizlunch/webapp/dist:/var/www:ro
     container_name: webapp
 
   proxy:

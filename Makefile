@@ -1,5 +1,5 @@
 sync:
-	rsync . ubuntu@dev.bizlunch.fr:/var/bizlunch/infra -advr  \
+	rsync . ubuntu@dev.bizlunch.private:/var/bizlunch/infra -advr  \
 	        --exclude=.git \
 	        --exclude=.idea
 
