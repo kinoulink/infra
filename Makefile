@@ -1,34 +1,29 @@
 sync:
-	rsync
+	rsync . ubuntu@dev.bizlunch.fr:/var/bizlunch/infra -advr  \
+	        --exclude=.git \
+	        --exclude=.idea
 
 docker/dev-machine/create:
 	docker-machine create --virtualbox-cpu-count 4 --virtualbox-memory 4096 --driver virtualbox  bizlunch
 
-docker/dev-machine/start:
-	docker-machine start bizlunch
-
-	eval "$$(docker-machine env bizlunch)"
-
-	docker-machine ssh bizlunch "   mkdir /var/bizlunch && \
-									cd /var/bizlunch && \
-                                    ln -s /Users/tom/www/bizlunch/api       api && \
-                                    ln -s /Users/tom/www/bizlunch/infra     infra && \
-                                    ln -s /Users/tom/www/bizlunch/webapp    webapp && \
-                                    ln -s /Users/tom/www/bizlunch/chat      messenger"
-
 docker/dev-machine/stop:
 	docker-machine stop bizlunch
 
-docker/build/base-images:
-	docker build --rm -t bizlunch/base base-images/base
-	docker build --rm -t bizlunch/java base-images/java
-	docker build --rm -t bizlunch/elasticsearch base-images/java+elasticsearch
-	docker build --rm -t bizlunch/mongodb base-images/mongodb
-	docker build --rm -t bizlunch/nginx base-images/nginx
-	docker build --rm -t bizlunch/nginx_php base-images/nginx+php
+docker/build/images:
+	./bin/docker_build base-images base
+	./bin/docker_build base-images java
+	./bin/docker_build base-images elasticsearch
+	./bin/docker_build base-images mongodb
+	./bin/docker_build base-images nginx
+	./bin/docker_build base-images nginx_php
+
+	./bin/docker_build stacks/public api
+	./bin/docker_build stacks/public messenger
+	./bin/docker_build stacks/public search
+	./bin/docker_build stacks/public webapp
 
 docker/cacher/start:
-	docker build -t bizlunch/apt-cacher base-images/apt-cacher
+	docker build --rm -t bizlunch/apt-cacher base-images/apt-cacher
 
 	docker run -d -p 3142:3142 \
 					--name apt-cacher-ng \

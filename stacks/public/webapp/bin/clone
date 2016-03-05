@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+DIR_TARGET=/var/bizlunch/sources
+
+git clone git@bitbucket.org:bizlunch/webapp.git $DIR_TARGET
+
+cd $DIR_TARGET
+
+git checkout new_design

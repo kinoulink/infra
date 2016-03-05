@@ -15,8 +15,14 @@ RUN /build/system_services.sh && \
 	/build/utilities.sh && \
 	/build/cleanup.sh
 
-#RUN echo 'Acquire::http { Proxy "http://apt-cacher-ng:3142"; };' >> /etc/apt/apt.conf.d/01proxy
+ENV LC_ALL          C.UTF-8
+ENV LANG            en_US.UTF-8
+ENV LANGUAGE        en_US.UTF-8
 
-#RUN echo 'Acquire::http::Proxy {download.oracle.com DIRECT;};' >> /etc/apt/apt.conf.d/01proxy
+ARG APT_CACHER_HOST=apt-cacher-ng
+
+RUN echo "Acquire::http { Proxy \"http://$APT_CACHER_HOST:3142\"; };" >> /etc/apt/apt.conf.d/01proxy
+RUN echo 'Acquire::https::Proxy "false";' >> /etc/apt/apt.conf.d/01proxy
+RUN echo 'Acquire::http::Proxy {download.oracle.com DIRECT;};' >> /etc/apt/apt.conf.d/01proxy
 
 CMD ["/sbin/my_init"]

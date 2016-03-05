@@ -1,0 +1,13 @@
+#!/bin/bash
+
+chown -R mongodb /data/db
+
+COMMAND="mongod --storageEngine wiredTiger --dbpath /data/db"
+
+numa='numactl --interleave=all'
+
+if $numa true &> /dev/null; then
+	set -- $numa "$COMMAND"
+fi
+
+exec setuser mongodb $COMMAND

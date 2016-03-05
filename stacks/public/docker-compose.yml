@@ -1,50 +1,53 @@
-mongo:
-  image: bizlunch/mongodb
-  ports:
-  - 27017:27017
-  volumes:
-  - /var/bizlunch/volumes/api/mongodb:/data/db:rw
-  container_name: mongo
+version: '2'
 
-messenger:
-  image: bizlunch/messenger
-  volumes:
-    - /var/bizlunch/messenger:/var/www:ro
-  expose:
-    - 80
-  container_name: messenger
+services:
 
-elasticsearch:
-  image: bizlunch/api-search
-  ports:
-  - 9200:9200
-  volumes:
-  - /var/bizlunch/volumes/api/elasticsearch:/usr/share/elasticsearch/data:rw
-  container_name: elasticsearch
+  mongo:
+    image: bizlunch/mongodb
+    ports:
+    - 27017:27017
+    volumes:
+    - /var/bizlunch/volumes/api/mongodb:/data/db:rw
+    container_name: mongo
 
-api:
-  image: bizlunch/api-app
-  expose:
-    - 80
-  volumes:
-  - /var/bizlunch/infra/stacks/public/app/nginx:/etc/service/nginx/config:ro
-  - /var/bizlunch/infra/stacks/public/app/php-fpm:/etc/service/phpfpm/config:ro
-  - /var/bizlunch/api:/var/www:rw
-  container_name: api
+  messenger:
+    image: bizlunch/messenger
+    volumes:
+      - /var/bizlunch/messenger:/var/www:ro
+    expose:
+      - 80
+    container_name: messenger
 
-webapp:
-  image: bizlunch/nginx
-  expose:
-    - 80
-  volumes:
-    - /var/bizlunch/infra/stacks/public/web/nginx:/etc/service/nginx/config:ro
-    - /var/bizlunch/webapp:/var/www:rw
-  container_name: webapp
+  elasticsearch:
+    image: bizlunch/search
+    ports:
+    - 9200:9200
+    volumes:
+    - /var/bizlunch/volumes/api/elasticsearch:/usr/share/elasticsearch/data:rw
+    container_name: elasticsearch
 
-proxy:
-  image: bizlunch/nginx
-  volumes:
-    - /var/bizlunch/infra/stacks/public/proxy/nginx:/etc/service/nginx/config:ro
-  ports:
-    - 80:80
-  container_name: proxy
+  api:
+    image: bizlunch/api
+    expose:
+      - 80
+    volumes:
+    - /var/bizlunch/infra/stacks/public/api/nginx:/etc/service/nginx/config:ro
+    - /var/bizlunch/infra/stacks/public/api/php-fpm:/etc/service/phpfpm/config:ro
+    - /var/bizlunch/api:/var/www:rw
+    container_name: api
+
+  webapp:
+    image: bizlunch/webapp
+    expose:
+      - 80
+    volumes:
+      - /var/bizlunch/infra/stacks/public/webapp/nginx:/etc/service/nginx/config:ro
+    container_name: webapp
+
+  proxy:
+    image: bizlunch/nginx
+    volumes:
+      - /var/bizlunch/infra/stacks/public/proxy/nginx:/etc/service/nginx/config:ro
+    ports:
+      - 80:80
+    container_name: proxy
