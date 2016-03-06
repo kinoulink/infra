@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "export LC_ALL=en_US.UTF-8" >> ~/.bashrc
 echo "export LC_ALL=en_US.UTF-8" >> ~/.profile
 echo "export BZ_ROOT=/var/bizlunch/" >> /.profile
@@ -10,12 +12,8 @@ apt-get update
 
 apt-get install -y htop wget curl make git
 
-mkdir /var/bizlunch && chown ubuntu:ubuntu /var/bizlunch
-
-mkdir /var/bizlunch/infra /var/bizlunch/log && chown ubuntu:www-data /var/bizlunch/log
+chown ubuntu:ubuntu /var/bizlunch
 
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 echo "export LC_ALL=en_US.UTF-8" >> /root/.bashrc
-
-ls -al /var/bizlunch
 

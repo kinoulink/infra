@@ -7,13 +7,14 @@ services:
     ports:
     - 27017:27017
     volumes:
-    - /var/bizlunch/volumes/api/mongodb:/data/db:rw
+    - /data/mongodb:/data/db:rw
+    - /var/bizlunch/infra/stacks/public/mongo:/share:ro
     container_name: mongo
 
   messenger:
     image: bizlunch/messenger
     volumes:
-      - /var/bizlunch/messenger:/var/www:ro
+      - /var/bizlunch/chat:/var/www:ro
     expose:
       - 80
     container_name: messenger
@@ -23,7 +24,7 @@ services:
     ports:
     - 9200:9200
     volumes:
-    - /var/bizlunch/volumes/api/elasticsearch:/usr/share/elasticsearch/data:rw
+    - /data/elasticsearch:/usr/share/elasticsearch/data:rw
     container_name: elasticsearch
 
   api:

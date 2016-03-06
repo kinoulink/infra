@@ -15,6 +15,7 @@ apt-get install -y apparmor
 apt-get install -y docker-engine
 
 usermod -aG docker ubuntu
+usermod -aG docker vagrant
 
 curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
