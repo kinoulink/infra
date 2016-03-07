@@ -7,8 +7,10 @@ Vagrant.configure(2) do |config|
   # https://docs.vagrantup.com.
 
   config.vm.box = "ubuntu/trusty64"
-
   config.vm.box_check_update = false
+
+  config.vm.define "bizlunch-public" do |box|
+  end
 
   config.vm.network :private_network, ip: "192.168.69.100"
   config.vm.network "forwarded_port", guest: 80, host: 80
@@ -21,9 +23,9 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.name = "BizlunchPublic"
-    vb.memory = 2048
+    vb.memory = 3048
     vb.cpus = 2
   end
 
-  config.vm.provision "shell", path: "bootstrap.sh"
+  config.vm.provision "shell", path: "bin/provision.sh"
 end
