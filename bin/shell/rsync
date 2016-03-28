@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -z "$1" ]
-then
-	echo "Target parameter is missing"
-	exit 1
-fi
-
-ansible -i ansible/inventory.ini $1 -m synchronize -u ubuntu -a "src=. dest=/var/bizlunch/infra recursive=yes archive=yes rsync_opts=--delete,--exclude=.git,--exclude=.DS_Store,--exclude=.idea,--exclude=ansible " -f 10

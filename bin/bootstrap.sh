@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Usage: "bootstrap.sh /Users/toto/bizlunch
+# Usage: "bootstrap.sh /Users/toto/kinoulink
 
 TARGET_DIR=$1
 
@@ -13,18 +13,12 @@ mkdir $TARGET_DIR
 
 cd $TARGET_DIR
 
-git clone git@github.com:bizlunch/infra.git
-git clone git@github.com:bizlunch/test.git
-git clone git@github.com:bizlunch/website.git
-
-git clone git@bitbucket.org:bizlunch/webapp.git
-git clone git@bitbucket.org:bizlunch/api.git
-git clone git@bitbucket.org:bizlunch/chat.git
-
+git clone git@github.com:kinoulink/infra.git
+git clone git@github.com:kinoulink/webapp.git
 cd infra/stacks/public
 
 vagrant up
 
 exit 1
 
-#sudo echo "192.168.69.100 api.local.bizlunch.fr local.bizlunch.fr messenger.local.bizlunch.fr webapp.local.bizlunch.fr" >> /etc/hosts
+#sudo echo "192.168.69.101 api.local.kinoulink.fr local.kinoulink.fr messenger.local.kinoulink.fr webapp.local.kinoulink.fr" >> /etc/hosts

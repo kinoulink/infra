@@ -6,7 +6,21 @@ apt-get update
 
 apt-get install -y htop wget curl make git
 
-chown ubuntu:ubuntu /var/bizlunch
+adduser --disabled-password --gecos "" kinoulink
+
+usermod -a -G sudo kinoulink
+usermod -a -G www-data kinoulink
+
+echo %kinoulink ALL=NOPASSWD:ALL > /etc/sudoers.d/kinoulink
+chmod 0440 /etc/sudoers.d/kinoulink
+
+chown kinoulink /var/kinoulink
 
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 echo "export LC_ALL=en_US.UTF-8" >> /root/.bashrc
+
+cd /tmp
+
+wget -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=6.16.1&source=github-rel"
+
+dpkg -i ./cf.deb

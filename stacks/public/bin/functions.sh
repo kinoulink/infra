@@ -1,83 +1,66 @@
 #!/usr/bin/env bash
 
-: ${BIZLUNCH_ENV:=dev}
-: ${BZ_ROOT:=/var/bizlunch/}
+source /var/kinoulink/infra/bin/functions.sh
 
-alias bz_api_console="docker exec api php /var/www/bin/console ${BIZLUNCH_ENV} "
-alias bz_api_config="docker exec api php /var/www/bin/console ${BIZLUNCH_ENV} config"
-alias bz_api_php="docker exec -ti api php "
+alias k_api_console="docker exec api php /var/www/bin/console ${K_ENV} "
+alias k_api_composer="docker exec api composer "
+alias k_api_config="docker exec api php /var/www/bin/console ${K_ENV} config"
+alias k_api_php="docker exec -ti api php "
 
-alias bz_mongo_shell="docker exec -ti mongo mongo bizlunch"
+alias k_mongo_shell="docker exec -ti mongo mongo kinoulink"
 
-function bz_docker_shell()
+function k_run()
 {
-	if [ "$#" -ne 1 ]; then
-	    echo "Illegal number of parameters"
-	fi
-
-	docker exec -ti $1 bash
+	docker-compose -p public -f docker-compose.yml up -d --force-recreate
+	docker-compose -p public logs
 }
 
-function bz_docker_build()
+function k_add_sample_data()
 {
-	if [ "$#" -ne 2 ]; then
-	    echo "Illegal number of parameters"
-	    return -1
-	fi
-
-	docker build --rm -t bizlunch/$2 $1/$2
+	docker exec mongo bash -c "cd /tmp && tar -xzvf /share/dump.tar.gz &&  mongorestore"
+	docker exec api php /var/www/bin/console dev es:import
 }
 
-function bz_dev_rsync()
+function k_dev_rsync()
 {
 	if [ "$#" -ne 1 ]; then
 	    echo "Illegal number of parameters"
 	    return -1
 	fi
 
-	rsync /var/bizlunch/$1 ubuntu@dev.bizlunch.private:/var/bizlunch \
+	rsync /var/kinoulink/$1 k-dev.cloudapp.net:/var/kinoulink \
 							-advr -e "ssh -o StrictHostKeyChecking=no" \
 	                        --exclude=.git --exclude=.idea
 }
 
-function bz_dev_deploy_api()
+function k_dev_deploy_webapp()
+{
+	rsync /var/kinoulink/webapp/gen/builds/src/dev k-dev.cloudapp.net:/var/kinoulink/webapp/gen/builds/src \
+							-advr -e "ssh -o StrictHostKeyChecking=no" \
+	                        --exclude=.git --exclude=.idea
+}
+
+function k_dev_deploy_api()
 {
 	docker exec api php /var/www/bin/console dev config
 
 	VERSION=$(docker exec api php /var/www/bin/console dev version:bump)
 
-	bz_dev_rsync "api"
+	k_dev_rsync "api"
 
-	bz_slack_message "api" "Nouvelle version $VERSION API en dev!"
+	k_slack_message "api" "Nouvelle version $VERSION API en dev!"
 
-	bz_rollbar_version "dev" ${VERSION}
+	k_rollbar_version "dev" ${VERSION}
 }
 
-function bz_prod_rsync()
+function k_prod_rsync()
 {
 	if [ "$#" -ne 1 ]; then
 	    echo "Illegal number of parameters"
 	    return -1
 	fi
 
-	rsync /var/bizlunch/$1 ubuntu@prod.bizlunch.private:/var/bizlunch/$1 -advr --exclude=.git --exclude=.idea
+	rsync /var/kinoulink/$1 ubuntu@prod.kinoulink.private:/var/kinoulink/$1 -advr --exclude=.git --exclude=.idea
 }
 
-function bz_slack_message()
-{
-	payload="payload={\"channel\": \"#$1\", \"username\": \"BizlunchBot\", \"text\": \"$2\"}"
-
-	curl -X POST --data-urlencode "${payload}" https://hooks.slack.com/services/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
-}
-
-function bz_rollbar_version()
-{
-	curl -X POST  https://api.rollbar.com/api/1/deploy/ \
-	  -F access_token=66106d0d8b7040ecaa833bda301f8814 \
-	  -F environment=$1 \
-	  -F revision=$2 \
-	  -F local_username=grunt
-}
-
-export BIZLUNCH_ENV
-export BZ_ROOT
+cd /var/kinoulink

@@ -1,4 +1,4 @@
-FROM bizlunch/nginx
+FROM kinoulink/nginx
 
 RUN add-apt-repository ppa:ondrej/php5-5.6  && \
 	apt-get update

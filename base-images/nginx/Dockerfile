@@ -1,4 +1,4 @@
-FROM bizlunch/base
+FROM kinoulink/base
 
 ADD services/nginx    /etc/service/nginx
 

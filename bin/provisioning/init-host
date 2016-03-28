@@ -6,4 +6,4 @@ then
 	exit 1
 fi
 
-ssh ubuntu@$1.bizlunch.fr -p 22 'bash -s' < ./bin/init-host-script
+ssh ubuntu@$1.kinoulink.fr -p 22 'bash -s' < ./bin/init-host-script

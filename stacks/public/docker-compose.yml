@@ -2,54 +2,78 @@ version: '2'
 
 services:
 
-  mongo:
-    image: bizlunch/mongodb
+  mongodb:
+    image: kinoulink/mongodb
     ports:
     - 27017:27017
     volumes:
     - /data/mongodb:/data/db:rw
-    - /var/bizlunch/infra/stacks/public/mongo:/share:ro
-    container_name: mongo
-
-  messenger:
-    image: bizlunch/messenger
-    volumes:
-      - /var/bizlunch/chat:/var/www:ro
-    expose:
-      - 80
-    container_name: messenger
-
-  elasticsearch:
-    image: bizlunch/search
-    ports:
-    - 9200:9200
-    volumes:
-    - /data/elasticsearch:/usr/share/elasticsearch/data:rw
-    container_name: elasticsearch
+    - ${K_ROOT}/infra/stacks/public/mongo:/share:ro
+    container_name: mongodb
+    restart: always
+    networks:
+      - common_default
 
   api:
-    image: bizlunch/api
+    build:
+      context: ./api
+      args:
+        K_ENV: ${K_ENV}
+    image: kinoulink/api-${K_ENV}
     expose:
       - 80
     volumes:
-    - /var/bizlunch/infra/stacks/public/api/nginx:/etc/service/nginx/config:ro
-    - /var/bizlunch/infra/stacks/public/api/php-fpm:/etc/service/phpfpm/config:ro
-    - /var/bizlunch/api:/var/www:rw
+    - ${K_ROOT}/api:/var/www:rw
     container_name: api
+    environment:
+      VIRTUAL_HOST: api
+    restart: always
+    networks:
+      - common_default
 
   webapp:
-    image: bizlunch/webapp
+    build:
+      context: ./webapp
+#      args:
+#        NODE_ENV:${K_ENV}
+    image: kinoulink/webapp:${K_ENV}-0.1
     expose:
       - 80
     volumes:
-      - /var/bizlunch/infra/stacks/public/webapp/nginx:/etc/service/nginx/config:ro
-      - /var/bizlunch/webapp:/var/bizlunch:ro
+      - ${K_ROOT}/webapp/gen/builds/src/${K_ENV}:/var/www:ro
     container_name: webapp
+    environment:
+      VIRTUAL_HOST: webapp
+    restart: always
+    networks:
+      - common_default
+
+  mongodb_ui:
+    image: knickers/mongo-express
+    expose:
+      - 8081
+    container_name: mongodb_ui
+    environment:
+      VIRTUAL_HOST: mongodb.admin
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    restart: always
+    networks:
+      - common_default
 
   proxy:
-    image: bizlunch/nginx
-    volumes:
-      - /var/bizlunch/infra/stacks/public/proxy/nginx:/etc/service/nginx/config:ro
+    build:
+      context: ./proxy
+    image: kinoulink/api-proxy
     ports:
       - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     container_name: proxy
+    restart: always
+    networks:
+      - common_default
+
+networks:
+
+  common_default:
+    external: true

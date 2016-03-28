@@ -1,36 +1,34 @@
 #!/usr/bin/env bash
 
-cd /var/bizlunch/infra
+cd /var/kinoulink/infra
 
 sh bin/provisioning/base.sh
 
 sh bin/provisioning/docker.sh
 
 echo "
-172.31.2.52 dev.bizlunch.private
-172.31.2.52 prod.bizlunch.private
+172.31.2.52 dev.kinoulink.private
+172.31.2.52 prod.kinoulink.private
 " >> /etc/hosts
 
-make docker/build/images
+su kinoulink  << EOF
 
-su vagrant  << EOF
+	mkdir ~/.ssh
+
 	echo "
-export LC_ALL=en_US.UTF-8
-. /var/bizlunch/infra/stacks/public/bin/functions.sh
-cd /var/bizlunch
+source /var/kinoulink/infra/stacks/public/bin/functions.sh
 	" >> ~/.bashrc
 
 	echo "
-Host dev.bizlunch.private
-    User ubuntu
-    IdentityFile /var/bizlunch/id_rsa
-
-Host prod.bizlunch.private
-    User ubuntu
-    IdentityFile /var/bizlunch/id_rsa
-	" >> ~/.ssh/config
+Host *.cloudapp.net
+    User kinoulink
+    IdentityFile /var/kinoulink/id_rsa
+	" > ~/.ssh/config
 EOF
 
-cd stacks/public
+source /var/kinoulink/infra/stacks/public/bin/functions.sh
 
-make up
+k_docker_build_base_images
+
+k_docker_build_images
+

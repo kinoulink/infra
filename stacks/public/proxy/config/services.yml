@@ -1,0 +1,16 @@
+services:
+
+  webapp:
+    container: webapp
+    server_name: webapp
+    port: 80
+
+  api:
+    container: api
+    server_name: api
+    port: 80
+
+  mongodbui:
+    container: mongodb_ui
+    server_name: mongodb.admin
+    port: 8081

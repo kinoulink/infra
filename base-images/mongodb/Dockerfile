@@ -1,4 +1,4 @@
-FROM bizlunch/base
+FROM kinoulink/base
 
 RUN groupadd -r mongodb && useradd -r -g mongodb mongodb
 
