@@ -1,0 +1,48 @@
+version: '2'
+
+services:
+
+  apt_cacher:
+    image: kinoulink/apt-cacher
+    ports:
+      - 3142:3142
+    volumes:
+     - /data/apt-cacher:/var/cache/apt-cacher-ng:rw
+    container_name: apt-cacher
+    restart: always
+    networks:
+      - default
+
+  npm_cacher:
+    image: sonatype/nexus
+    ports:
+      - 3143:8081
+    container_name: npm-cacher
+    restart: always
+    networks:
+      - default
+
+  datadog_agent:
+    image: datadog/docker-dd-agent:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+      - /proc/:/host/proc/:ro
+      - $PWD/ddagent/conf.d:/conf.d:ro
+    hostname: ${K_ENV}.kinoulink.com
+    environment:
+      API_KEY: c86d548ee06441cafa74716c581dc79c
+    container_name: dd-agent
+    restart: always
+    networks:
+      - default
+
+networks:
+
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+          ip_range: 172.18.5.0/24
+          gateway: 172.18.0.1
