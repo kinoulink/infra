@@ -24,6 +24,7 @@ services:
       - 80
     volumes:
     - ${K_ROOT}/api:/var/www:rw
+    - /data/upload:/var/kinoulink/upload:rw
     container_name: api
     environment:
       VIRTUAL_HOST: api
