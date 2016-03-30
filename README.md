@@ -35,4 +35,10 @@ Use bootstrap.sh script or manually:
 
 Inside vagrant machine, "cd" to the desired stack, and play with docker-compose.
 
-To connect to dev machine => "ssh dev.kinoulink.private" (inside Vagrant machine)
+To connect to dev machine => "ssh dev.kinoulink.com" (inside Vagrant machine)
+
+### External services
+
+- https://rollbar.com
+- https://loggly.com
+- https://datadog.com

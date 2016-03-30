@@ -1,12 +1,19 @@
 FROM kinoulink/nginx_php
 
-RUN apt-get install -y php5-dev php-pear
+RUN apt-get install -y \
+				php5-dev \
+				php5-imagick \
+				php-pear
 
 RUN 	pecl install mongo
 
 RUN echo "extension=mongo.so" > /etc/php5/fpm/conf.d/20-mongodb.ini && \
 	echo "extension=mongo.so" > /etc/php5/cli/conf.d/20-mongodb.ini && \
 	echo "extension=mongo.so" > /etc/php5/mods-available/mongodb.ini
+
+RUN apt-get remove -y php5-dev php-pear && \
+	apt-get autoremove -y && \
+	rm -rf /var/lib/apt/*
 
 RUN ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 

@@ -9,6 +9,7 @@ export K_ROOT
 export LC_ALL=en_US.UTF-8
 
 alias dc="docker-compose"
+alias d="docker"
 
 function k_docker_shell()
 {
