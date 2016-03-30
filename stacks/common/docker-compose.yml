@@ -37,6 +37,18 @@ services:
     networks:
       - default
 
+  loggly_agent:
+    image: sendgridlabs/loggly-docker
+    environment:
+      TOKEN: 3390de5c-c3f5-4158-bd75-a627f6314906
+      TAG: Docker
+    container_name: loggly-agent
+    ports:
+      - 514:514/udp
+    restart: always
+    networks:
+      - default
+
 networks:
 
   default:
