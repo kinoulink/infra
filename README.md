@@ -1,11 +1,12 @@
-## Bizlunch infrastructure - As code -
+## Kinoulink infrastructure - As code -
 
 Welcome to kinoulink infrastructure as code. We have 3 stages:
 - local => Developer machine (via Vagrant)
-- dev => AWS machine
-- prod => AWS machine
+- dev => Azure machine
+- prod => Azure machine
 
 kinoulink project is split into stacks:
+- common => NPM/APT cacher, logger
 - public => webapp, API... everything "public"
 
 ### Technos
