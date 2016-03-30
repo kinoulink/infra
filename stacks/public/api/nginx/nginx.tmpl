@@ -25,6 +25,8 @@ http
 	gzip on;
   gzip_disable "msie6";
 
+  client_max_body_size 999M;
+
 	server
 	{
 		listen 80;
@@ -32,13 +34,16 @@ http
 
 		index index.html index.php;
 
-		client_max_body_size 999m;
-
 		root /var/www/web;
 
         location /
         {
 		    try_files $uri /index.php?$query_string;
+		}
+
+		location /upload
+		{
+			alias /var/kinoulink/upload;
 		}
 
 		location ~ \.php$

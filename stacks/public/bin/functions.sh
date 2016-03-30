@@ -35,7 +35,11 @@ function k_dev_rsync()
 
 function k_dev_deploy_webapp()
 {
-	rsync /var/kinoulink/webapp/gen/builds/src/dev k-dev.cloudapp.net:/var/kinoulink/webapp/gen/builds/src \
+	cd ${K_ROOT}/webapp
+
+#	NODE_ENV=dev gulp build
+
+	rsync gen/builds/src/dev k-dev.cloudapp.net:/var/kinoulink/webapp/gen/builds/src \
 							-advr -e "ssh -o StrictHostKeyChecking=no" \
 	                        --exclude=.git --exclude=.idea
 }

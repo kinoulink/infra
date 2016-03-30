@@ -22,10 +22,10 @@ http
   access_log off;
   error_log /dev/stderr;
 
-	gzip on;
-  gzip_disable "msie6";
+	client_max_body_size 999M;
 
-  client_max_body_size 999m;
+	gzip on;
+    gzip_disable "msie6";
 
   {{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
 
