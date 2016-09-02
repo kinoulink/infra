@@ -1,45 +1,39 @@
 ## Kinoulink infrastructure - As code -
 
 Welcome to kinoulink infrastructure as code. We have 3 stages:
-- local => Developer machine (via Vagrant)
-- dev => Azure machine
-- prod => Azure machine
+- local => Developer machine (via Docker for Mac or Windows)
+- dev => AWS ECS Single machine
+- prod => AWS ECS Cluster
 
-kinoulink project is split into stacks:
-- common => NPM/APT cacher, logger
-- public => webapp, API... everything "public"
+Stacks:
+- infra manager
+- public
+- backoffice
 
 ### Technos
 
-- Vagrant
 - Docker > 1.8 & Docker compose > 1.6
 - Bash
 
-### Requirements
-
-- Vagrant
-- VirtualBox
-- Shell console
-
 ### Dev - init
 
-Vagrant to setup dev environment, with Docker and Docker compose inside.
-
-Use bootstrap.sh script or manually:
-
-- 1: Create a "kinoulink" folder
-- 2: Clone all git projects
-- 3: "cd" to the desired stack
-- 4: Run "vagrant up"
-
-<!> Copy or symlink your ssh private key to K_ROOT (on your machine) <!>
-
-Inside vagrant machine, "cd" to the desired stack, and play with docker-compose.
-
-To connect to dev machine => "ssh dev.kinoulink.com" (inside Vagrant machine)
+- 1: docker-compose up to create containers
+- 2: Initialize data base if needed (docker run ktv_app sf )
 
 ### External services
 
 - https://rollbar.com
 - https://loggly.com
 - https://datadog.com
+- https://console.aws.amazon.com
+
+### Configuration
+
+- K_CONFIG_AZURE_STORAGE_KEY "Primary or Secondary Key for the Storage Account."
+- K_CONFIG_LOGGLY_TOKEN
+- K_CONFIG_DATADOG_TOKEN
+- Install Azure volume driver by running ./bin/provisionning/install_azure_volume_driver.sh script
+
+### References
+
+- https://aws.amazon.com/blogs/compute/building-a-dynamic-dns-for-route-53-using-cloudwatch-events-and-lambda/

@@ -1,0 +1,19 @@
+version: 2
+
+services:
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ktv_phpmyadmin
+    hostname: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mysql
+
+  rsync:
+    image: nabeken/docker-volume-container-rsync
+    volumes:
+      - /opt/ktv/rsync:/docker
+    ports:
+      - 873:873

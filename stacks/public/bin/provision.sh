@@ -6,10 +6,9 @@ sh bin/provisioning/base.sh
 
 sh bin/provisioning/docker.sh
 
-echo "
-172.31.2.52 dev.kinoulink.private
-172.31.2.52 prod.kinoulink.private
-" >> /etc/hosts
+mkdir -p /data/media
+
+mount.cifs //kinoulink.file.core.windows.net/media-${K_ENV} /data/media -o "vers=3.0,"
 
 su kinoulink  << EOF
 

@@ -1,80 +1,33 @@
-version: '2'
+version: "2"
 
 services:
 
-  mongodb:
-    image: kinoulink/mongodb
-    ports:
-    - 27017:27017
-    volumes:
-    - /data/mongodb:/data/db:rw
-    - ${K_ROOT}/infra/stacks/public/mongo:/share:ro
-    container_name: mongodb
-    restart: always
-    networks:
-      - common_default
-
-  api:
-    build:
-      context: ./api
-      args:
-        K_ENV: ${K_ENV}
-    image: kinoulink/api-${K_ENV}
-    expose:
-      - 80
-    volumes:
-    - ${K_ROOT}/api:/var/www:rw
-    - /data/upload:/var/kinoulink/upload:rw
-    container_name: api
-    environment:
-      VIRTUAL_HOST: api
-    restart: always
-    networks:
-      - common_default
-
-  webapp:
-    build:
-      context: ./webapp
-#      args:
-#        NODE_ENV:${K_ENV}
-    image: kinoulink/webapp:${K_ENV}-0.1
-    expose:
-      - 80
-    volumes:
-      - ${K_ROOT}/webapp/gen/builds/src/${K_ENV}:/var/www:ro
-    container_name: webapp
-    environment:
-      VIRTUAL_HOST: webapp
-    restart: always
-    networks:
-      - common_default
-
-  mongodb_ui:
-    image: knickers/mongo-express
-    expose:
-      - 8081
-    container_name: mongodb_ui
-    environment:
-      VIRTUAL_HOST: mongodb.admin
-      ME_CONFIG_MONGODB_SERVER: mongodb
-    restart: always
-    networks:
-      - common_default
-
-  proxy:
-    build:
-      context: ./proxy
-    image: kinoulink/api-proxy
+  app:
+    build: ./app
+    image: ktv/app
+    container_name: ktv_app
+    hostname: app
     ports:
       - 80:80
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    container_name: proxy
-    restart: always
-    networks:
-      - common_default
+      - ./app/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./app/php.ini:/etc/php/7.0/fpm/php.ini:ro
+    environment:
+      - KTV_ENV=$(KTV_ENV)
 
-networks:
+  mysql:
+    image: percona:5.7
+    container_name: ktv_mysql
+    hostname: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=$(KTV_MYSQL_ROOT_PASSWORD)
 
-  common_default:
-    external: true
+volumes:
+
+  mysql:
+    driver: local

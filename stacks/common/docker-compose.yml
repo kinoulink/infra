@@ -31,7 +31,7 @@ services:
       - $PWD/ddagent/conf.d:/conf.d:ro
     hostname: ${K_ENV}.kinoulink.com
     environment:
-      API_KEY: c86d548ee06441cafa74716c581dc79c
+      API_KEY: ${K_CONFIG_DATADOG_TOKEN}
     container_name: dd-agent
     restart: always
     networks:
@@ -40,7 +40,7 @@ services:
   loggly_agent:
     image: sendgridlabs/loggly-docker
     environment:
-      TOKEN: 3390de5c-c3f5-4158-bd75-a627f6314906
+      TOKEN: ${K_CONFIG_LOGGLY_TOKEN}
       TAG: Docker
     container_name: loggly-agent
     ports:

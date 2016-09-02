@@ -1,6 +1,0 @@
-#!/bin/bash
-
-exec docker-gen     -notify "sv reload nginx" \
-					-watch -only-exposed \
-					/etc/service/nginx/config/nginx_conf.tmpl \
-					/etc/service/nginx/config/nginx.conf

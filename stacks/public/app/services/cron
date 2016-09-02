@@ -1,0 +1,5 @@
+MAILTO=""
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOME=/var/www
+SHELL=/bin/bash
+* * * * *   root    /var/www/bin/cron.sh > /var/www/web/cron.log 2>&1
