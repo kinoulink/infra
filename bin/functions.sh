@@ -4,7 +4,7 @@
 
 #source ${K_ROOT}config_host.sh
 
-export K_ENV
+export K_ENV=prod
 export K_ROOT
 export LC_ALL=en_US.UTF-8
 
