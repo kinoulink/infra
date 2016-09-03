@@ -10,6 +10,7 @@ export LC_ALL=en_US.UTF-8
 
 alias dc="docker-compose"
 alias d="docker"
+alias git="docker run -v $(pwd):/root/work --rm samueldebruyn/debian-git git"
 
 function k_docker_shell()
 {

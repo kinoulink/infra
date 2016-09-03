@@ -25,6 +25,10 @@ RUN chmod +x       /root/init && \
 RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
 	chown www-data:www-data -R /opt/ktv/fs /var/lib/php/session
 
+ADD nginx.conf /etc/nginx/nginx.conf
+ADD php.ini    /etc/php/7.0/fpm/php.ini
+ADD php.ini    /etc/php/7.0/cli/php.ini
+
 RUN rm -rf /etc/service/sshd
 
 EXPOSE 80

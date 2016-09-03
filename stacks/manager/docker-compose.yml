@@ -4,6 +4,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    mem_limit: 268435456
     container_name: ktv_phpmyadmin
     hostname: phpmyadmin
     ports:
@@ -13,6 +14,7 @@ services:
 
   rsync:
     image: nabeken/docker-volume-container-rsync
+    mem_limit: 268435456
     volumes:
       - /opt/ktv/rsync:/docker
     ports:
