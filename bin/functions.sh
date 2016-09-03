@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-: ${K_ROOT:=/var/kinoulink/}
+: ${K_ROOT:=/opt/ktv/shares/}
 
 source ${K_ROOT}config_host.sh
 
@@ -10,7 +10,7 @@ export LC_ALL=en_US.UTF-8
 
 alias dc="docker-compose"
 alias d="docker"
-alias git="docker run -v $(pwd):/root/work --rm samueldebruyn/debian-git git"
+#alias git="docker run -v $(pwd):/root/work --rm samueldebruyn/debian-git git"
 
 function k_docker_shell()
 {
@@ -28,7 +28,11 @@ function k_docker_build()
 	    return -1
 	fi
 
-	docker build --rm -t kinoulink/$2 ${K_ROOT}infra/$1/$2
+	docker build --rm -t ktv_$2 ${K_ROOT}infra/stacks/$1/$2
+
+	docker tag ktv_$2:latest 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_$2:latest
+
+	docker push 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_$2:latest
 }
 
 function k_docker_build_base_images()

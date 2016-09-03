@@ -3,10 +3,11 @@ version: "2"
 services:
 
   app:
-    build: ./app
-    image: ktv/app
+    build: ./server
+    image: ktv_app
     container_name: ktv_app
     hostname: app
+    mem_limit: 4G
     ports:
       - 80:80
     environment:
@@ -14,9 +15,10 @@ services:
 
   mysql:
     build: ./mysql
-    image: ktv/mysql
+    image: ktv_mysql
     container_name: ktv_mysql
     hostname: mysql
+    mem_limit: 4G
     ports:
       - 3306:3306
     volumes:
