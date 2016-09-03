@@ -2,7 +2,7 @@
 
 : ${K_ROOT:=/opt/ktv/shares/}
 
-source ${K_ROOT}config_host.sh
+#source ${K_ROOT}config_host.sh
 
 export K_ENV
 export K_ROOT
