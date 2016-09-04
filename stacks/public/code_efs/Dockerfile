@@ -9,7 +9,6 @@ RUN apt-get update && \
 
 ADD init    /etc/my_init.d/mount
 
-VOLUME /opt/ktv/shares/server
-VOLUME /opt/ktv/shares/infra
+VOLUME /opt/ktv/shares
 
 WORKDIR /opt/ktv/shares
