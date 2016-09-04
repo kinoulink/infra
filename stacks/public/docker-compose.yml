@@ -2,20 +2,23 @@ version: "2"
 
 services:
 
+  code:
+    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_code_efs:latest
+
   app:
-    build: ./server
-    image: ktv_app
+    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_server:latest
     container_name: ktv_app
     hostname: app
     mem_limit: 4G
+    volumes_from:
+      - code
     ports:
       - 80:80
     environment:
       - KTV_ENV=$KTV_ENV
 
   mysql:
-    build: ./mysql
-    image: ktv_mysql
+    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_mysql:latest
     container_name: ktv_mysql
     hostname: mysql
     mem_limit: 4G

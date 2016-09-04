@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
 alias sf="setuser www-data php app/console --env=prod"
+
+cp -r /opt/ktv/shares/server/* /var/www/
