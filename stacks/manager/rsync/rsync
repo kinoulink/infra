@@ -1,7 +1,5 @@
 #!/bin/bash
 
-VOLUME=${VOLUME:-/opt/ktv/shares}
-ALLOW=${ALLOW:-192.168.0.0/16 172.16.0.0/12}
 OWNER=${OWNER:-www-data}
 GROUP=${GROUP:-www-data}
 
@@ -13,10 +11,14 @@ gid = ${GROUP}
 use chroot = yes
 log file = /dev/stdout
 reverse lookup = no
-[volume]
-    hosts allow = *
+
+[server]
     read only = false
-    path = ${VOLUME}
-    comment = docker volume
+    path = /opt/ktv/shares/server
+
+[infra]
+    read only = false
+    path = /opt/ktv/shares/infra
 EOF
 
+exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf "$@"
