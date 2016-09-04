@@ -37,3 +37,5 @@ Stacks:
 ### References
 
 - https://aws.amazon.com/blogs/compute/building-a-dynamic-dns-for-route-53-using-cloudwatch-events-and-lambda/
+- https://dzone.com/articles/mount-aws-efs-nfs-or-cifssamba-volumes-in-docker
+- http://jbu.io/2015/10/21/using-docker-volume-plugins-with-amazon-ecs-optimized-ami/

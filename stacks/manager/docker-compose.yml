@@ -15,7 +15,10 @@ services:
   rsync:
     image: nabeken/docker-volume-container-rsync
     mem_limit: 268435456
+    privileged: true
+    restart: always
+    working_dir: /docker
     volumes:
-      - /opt/ktv/rsync:/docker
+      - /opt/ktv/shares:/docker
     ports:
       - 873:873
