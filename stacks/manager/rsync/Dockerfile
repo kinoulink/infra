@@ -14,3 +14,7 @@ RUN mkdir -p /opt/ktv/shares/infra /opt/ktv/shares/app
 
 ADD rsync /etc/service/rsync/run
 ADD init    /etc/my_init.d/mount
+
+WORKDIR /opt/ktv/shares
+
+EXPOSE 873

@@ -13,12 +13,9 @@ services:
       - PMA_HOST=mysql
 
   rsync:
-    image: nabeken/docker-volume-container-rsync
+    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_rsync:latest
     mem_limit: 268435456
     privileged: true
     restart: always
-    working_dir: /docker
-    volumes:
-      - /opt/ktv/shares:/docker
     ports:
       - 873:873
