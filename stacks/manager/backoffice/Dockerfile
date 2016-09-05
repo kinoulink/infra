@@ -22,13 +22,15 @@ ADD services/install    /opt/ktv/bin/install
 
 RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
 	chown www-data:www-data -R /opt/ktv /var/lib/php/session && \
-	chmod 600 /etc/cron.d/ktv
+	chmod 600 /etc/cron.d/ktv && \
+	chmod 755 /opt/ktv/bin/*
 
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD php.ini    /etc/php/7.0/fpm/php.ini
 ADD php.ini    /etc/php/7.0/cli/php.ini
 
-RUN rm -rf /etc/service/sshd
+RUN rm -rf /etc/service/sshd && \
+	rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 ENV COMPOSER_HOME /opt/ktv/composer
 

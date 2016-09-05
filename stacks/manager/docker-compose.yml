@@ -27,3 +27,10 @@ services:
     mem_limit: 268435456
     ports:
       - 80:80
+    volumes:
+      - composer_cache:/opt/ktv/composer/cache
+
+volumes:
+
+  composer_cache:
+      driver: local
