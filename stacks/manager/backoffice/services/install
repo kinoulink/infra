@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+cd /opt/tmp
+
+git clone https://github.com/kinoulink/backoffice.git
+
+cd backoffice
+
+composer install
+
+mv . /var/www/
+
+rm -rf /opt/tmp/*
+
+chown www-data:www-data -R /var/www

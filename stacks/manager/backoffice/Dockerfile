@@ -12,21 +12,18 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN mkdir /run/php /etc/service/nginx /etc/service/php /opt/tmp && \
 	chown www-data /opt/tmp
 
-ADD services/nginx    /etc/service/nginx/run
-RUN chmod +x          /etc/service/nginx/run
+ADD services/nginx      /etc/service/nginx/run
+ADD services/php        /etc/service/php/run
+ADD services/cron       /etc/cron.d/ktv
+ADD services/init       /etc/my_init.d/install
+ADD services/install    /opt/ktv/bin/install
 
-ADD services/php   /etc/service/php/run
-RUN chmod +x       /etc/service/php/run
-
-ADD services/cron   /etc/cron.d/ktv
-
-ADD services/init   /root/init
-RUN chmod +x       /root/init && \
-	echo "source /root/init" >> ~/.bashrc && \
-	chmod 600 /etc/cron.d/ktv
+#RUN chmod +x       /root/init && \
+#	echo "source /root/init" >> ~/.bashrc && \
 
 RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
 	chown www-data:www-data -R /opt/ktv/fs /var/lib/php/session
+	chmod 600 /etc/cron.d/ktv
 
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD php.ini    /etc/php/7.0/fpm/php.ini
@@ -34,6 +31,10 @@ ADD php.ini    /etc/php/7.0/cli/php.ini
 
 RUN rm -rf /etc/service/sshd
 
-VOLUME /root/.composer/cache
+ENV COMPOSER_HOME /opt/ktv/composer
+
+VOLUME /opt/ktv/composer/cache
+
+USER www-data
 
 EXPOSE 80
