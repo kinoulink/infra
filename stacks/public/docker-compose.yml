@@ -7,8 +7,10 @@ services:
     container_name: ktv_app
     hostname: app
     mem_limit: 268435456
+    links:
+      - mysql:mysql
     volumes:
-      - /opt/ktv/shares/server/dev:/var/www:ro
+      - /opt/ktv/shares/app/dev:/var/www:ro
     ports:
       - 80:80
     environment:

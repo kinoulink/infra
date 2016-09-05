@@ -10,7 +10,7 @@ services:
     ports:
       - 8080:80
     environment:
-      - PMA_HOST=mysql
+      - PMA_HOST=node-1.docker.ktv.internal
 
   rsync:
     image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_rsync:latest
@@ -19,3 +19,14 @@ services:
     restart: always
     ports:
       - 873:873
+
+  backoffice:
+    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_backoffice:latest
+    container_name: ktv_backoffice
+    hostname: app
+    mem_limit: 268435456
+    ports:
+      - 80:80
+    environment:
+      - KTV_ENV=$KTV_ENV
+      - KTV_RELEASE=beta

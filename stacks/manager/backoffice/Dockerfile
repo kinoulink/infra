@@ -1,10 +1,9 @@
 FROM phusion/baseimage:0.9.19
 
 RUN apt update && \
-	apt install -y  net-tools make \
+	apt install -y  net-tools make git \
 					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-intl \
-					nginx-light \
-					ffmpeg
+					nginx-light
 
 RUN mkdir /run/php /etc/service/nginx /etc/service/php /opt/tmp && \
 	chown www-data /opt/tmp
