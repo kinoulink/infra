@@ -34,6 +34,6 @@ ADD php.ini    /etc/php/7.0/cli/php.ini
 
 RUN rm -rf /etc/service/sshd
 
-EXPOSE 80
+VOLUME /root/.composer/cache
 
-WORKDIR /var/www
+EXPOSE 80
