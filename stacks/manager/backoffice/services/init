@@ -2,4 +2,14 @@
 
 alias sf="setuser www-data php bin/console --env=prod"
 
-#cp -r /opt/ktv/shares/server/* /var/www/
+cd /opt/tmp
+
+git clone https://github.com/kinoulink/backoffice.git
+
+cd backoffice
+
+composer install
+
+mv . /var/www/
+
+rm -rf /opt/tmp/*

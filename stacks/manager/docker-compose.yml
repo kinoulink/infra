@@ -27,6 +27,3 @@ services:
     mem_limit: 268435456
     ports:
       - 80:80
-    environment:
-      - KTV_ENV=$KTV_ENV
-      - KTV_RELEASE=beta

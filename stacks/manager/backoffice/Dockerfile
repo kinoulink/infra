@@ -7,6 +7,8 @@ RUN apt update && \
 					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-intl \
 					nginx-light
 
+RUN url -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 RUN mkdir /run/php /etc/service/nginx /etc/service/php /opt/tmp && \
 	chown www-data /opt/tmp
 
