@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-cd /opt/tmp
+mkdir /opt/ktv/tmp
+
+cd /opt/ktv/tmp
 
 git clone https://github.com/kinoulink/backoffice.git
 
@@ -10,6 +12,6 @@ composer install
 
 mv . /var/www/
 
-rm -rf /opt/tmp/*
+rm -rf /opt/ktv/tmp
 
 chown www-data:www-data -R /var/www
