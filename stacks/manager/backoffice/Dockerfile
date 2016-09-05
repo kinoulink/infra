@@ -34,6 +34,4 @@ ENV COMPOSER_HOME /opt/ktv/composer
 
 VOLUME /opt/ktv/composer/cache
 
-USER www-data
-
 EXPOSE 80
