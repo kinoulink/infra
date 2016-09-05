@@ -22,7 +22,7 @@ ADD services/install    /opt/ktv/bin/install
 #	echo "source /root/init" >> ~/.bashrc && \
 
 RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
-	chown www-data:www-data -R /opt/ktv/fs /var/lib/php/session
+	chown www-data:www-data -R /opt/ktv/fs /var/lib/php/session && \
 	chmod 600 /etc/cron.d/ktv
 
 ADD nginx.conf /etc/nginx/nginx.conf
