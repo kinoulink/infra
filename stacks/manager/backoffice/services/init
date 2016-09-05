@@ -2,4 +2,6 @@
 
 alias sf="setuser www-data php bin/console --env=prod"
 
+chown www-data:www-data -R /opt/ktv/composer/cache
+
 setuser www-data /opt/ktv/bin/install
