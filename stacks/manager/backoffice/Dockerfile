@@ -2,10 +2,11 @@ FROM phusion/baseimage:0.9.19
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-RUN apt update && \
-	apt install -y  net-tools make git \
-					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-intl \
-					nginx-light
+RUN apt-get update && \
+	apt-get install -y  net-tools make git \
+					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-sqlite3 php-intl \
+					nginx-light && \
+	apt-get clean
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -28,6 +29,8 @@ RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD php.ini    /etc/php/7.0/fpm/php.ini
 ADD php.ini    /etc/php/7.0/cli/php.ini
+ADD php_fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+ADD php_fpm_pool.conf /etc/php/7.0/fpm/pool.d/www.conf
 
 RUN rm -rf /etc/service/sshd && \
 	rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh
