@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+alias sf="setuser www-data php /opt/ktv/www/bin/console --env=prod"

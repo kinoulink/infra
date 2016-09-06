@@ -3,7 +3,7 @@ version: "2"
 services:
 
   app:
-    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_server:latest
+    image: kinoulink/ktv_server
     container_name: ktv_app
     hostname: app
     mem_limit: 268435456
@@ -18,7 +18,7 @@ services:
       - KTV_RELEASE=beta
 
   mysql:
-    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_mysql:latest
+    image: kinoulink/ktv_data
     container_name: ktv_mysql
     hostname: mysql
     mem_limit: 268435456

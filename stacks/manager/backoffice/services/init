@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-alias sf="setuser www-data php bin/console --env=prod"
-
 chown www-data:www-data -R /opt/ktv/volume /opt/ktv/composer/cache
 
 /opt/ktv/bin/install

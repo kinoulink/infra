@@ -13,7 +13,7 @@ services:
       - PMA_HOST=node-1.docker.ktv.internal
 
   rsync:
-    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_rsync:latest
+    image: kinoulink/sync
     mem_limit: 268435456
     privileged: true
     restart: always
@@ -21,12 +21,14 @@ services:
       - 873:873
 
   backoffice:
-    image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_backoffice:latest
+    image: kinoulink/backoffice
     container_name: ktv_backoffice
     hostname: backoffice
     mem_limit: 268435456
     ports:
       - 80:80
+    environment:
+      - APP_VERSION=master
     volumes:
       - composer_cache:/opt/ktv/composer/cache
       - backoffice_www:/opt/ktv/volume

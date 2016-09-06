@@ -3,7 +3,7 @@ FROM phusion/baseimage:0.9.19
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 RUN apt-get update && \
-	apt-get install -y  net-tools make git \
+	apt-get install -y  net-tools make \
 					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-sqlite3 php-intl \
 					nginx-light && \
 	apt-get clean
@@ -18,8 +18,7 @@ ADD services/cron       /etc/cron.d/ktv
 ADD services/init       /etc/my_init.d/install
 ADD services/install    /opt/ktv/bin/install
 
-#RUN chmod +x       /root/init && \
-#	echo "source /root/init" >> ~/.bashrc && \
+RUN echo "source /opt/ktv/bin/functions" >> ~/.bashrc
 
 RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
 	chown www-data:www-data -R /opt/ktv /var/lib/php/session && \
