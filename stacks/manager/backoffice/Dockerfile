@@ -35,5 +35,6 @@ RUN rm -rf /etc/service/sshd && \
 ENV COMPOSER_HOME /opt/ktv/composer
 
 VOLUME /opt/ktv/composer/cache
+VOLUME /opt/ktv/volume
 
 EXPOSE 80

@@ -1,4 +1,4 @@
-version: 2
+version: "2"
 
 services:
 
@@ -23,14 +23,18 @@ services:
   backoffice:
     image: 252343880797.dkr.ecr.eu-west-1.amazonaws.com/ktv_backoffice:latest
     container_name: ktv_backoffice
-    hostname: app
+    hostname: backoffice
     mem_limit: 268435456
     ports:
       - 80:80
     volumes:
       - composer_cache:/opt/ktv/composer/cache
+      - backoffice_www:/opt/ktv/volume
 
 volumes:
 
   composer_cache:
+      driver: local
+
+  backoffice_www:
       driver: local

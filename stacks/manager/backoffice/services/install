@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
 
-mkdir /opt/ktv/tmp
+WORKING_DIR=/opt/ktv/www
 
-cd /opt/ktv/tmp
+if [ -d "$WORKING_DIR" ]; then rm -Rf $WORKING_DIR; fi
 
-git clone https://github.com/kinoulink/backoffice.git
+git clone https://github.com/kinoulink/backoffice.git $WORKING_DIR
 
-cd backoffice
+cd $WORKING_DIR
 
 composer install
 
-mv . /var/www/
-
-rm -rf /opt/ktv/tmp
-
-chown www-data:www-data -R /var/www
+chown www-data:www-data -R $WORKING_DIR
