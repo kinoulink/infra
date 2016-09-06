@@ -4,7 +4,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 
 RUN apt-get update && \
 	apt-get install -y  net-tools make \
-					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-sqlite3 php-intl \
+					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-sqlite3 php-intl wget curl \
 					nginx-light && \
 	apt-get clean
 

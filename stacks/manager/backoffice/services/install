@@ -4,6 +4,8 @@ WORKING_DIR=/opt/ktv/www
 
 if [ -d "$WORKING_DIR" ]; then rm -Rf $WORKING_DIR; fi
 
+mkdir $WORKING_DIR
+
 wget -qO- https://github.com/kinoulink/backoffice/archive/${APP_VERSION:master}.tar.gz  | tar xvz -C $WORKING_DIR
 
 git clone https://github.com/kinoulink/backoffice.git $WORKING_DIR
