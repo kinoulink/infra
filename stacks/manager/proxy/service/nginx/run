@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+echo "admin:${HTTP_AUTH_PASSWORD}" > /etc/nginx/.htpasswd
+
+chown www-data:www-data /etc/nginx/.htpasswd
+
+exec nginx -c /etc/service/nginx/config/nginx.conf

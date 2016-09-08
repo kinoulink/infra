@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Infrastructure</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Link</th>
+                    <th>Container(s)</th>
+                </tr>
+            </thead>
+            {{ $url := ".qwant.local" }}
+            {{ range $host, $containers := groupByLabel $ "ktv.infra.proxy.domain" }}
+            <tr>
+                <td>{{ $host }}</td>
+                <td><a class="proxy_link" href="//{{ $host }}{{ $url }}" title="{{ $host }}">{{ $host }}{{ $url }}</a></td>
+                <td>
+                    <ul>
+                    {{ range $index, $value := $containers }}
+                        {{ $network := index $value.Networks 0 }}
+                        {{ $port := or (index $value.Labels "ktv.infra.proxy.port") "80" }}
+                        <li>{{ $value.Name }} ({{ $value.Image }}) - <a href="{{ $network.IP }}:{{ $port }}">{{ $network.IP }}:{{ $port }}</a></li>
+                    {{ end }}
+                    </ul>
+                </td>
+            </tr>
+            {{ end }}
+
+        </table>
+
+    </div>
+
+    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+
+    <script>
+        $(function()
+        {
+            var host = location.host, env = 'prod';
+
+            if (host.indexOf('.local.') > 0)
+            {
+                env = 'local';
+            }
+            else if (host.indexOf('.dev.') > 0)
+            {
+                env = 'dev';
+            }
+
+            $('a.proxy_link').each(function()
+            {
+                var url = $(this).attr('href').replace('(ENV)', env);
+
+                $(this).attr('href', url).html(url);
+            });
+        });
+    </script>
+
+</body>
+</html>

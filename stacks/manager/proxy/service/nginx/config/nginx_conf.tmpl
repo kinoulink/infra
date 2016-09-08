@@ -1,0 +1,91 @@
+user www-data;
+worker_processes 1;
+pid /run/nginx.pid;
+daemon off;
+
+events
+{
+  worker_connections 768;
+}
+
+http
+{
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+  keepalive_timeout 65;
+  types_hash_max_size 2048;
+
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  access_log off;
+  error_log stderr;
+
+	client_max_body_size 999M;
+
+	gzip on;
+    gzip_disable "msie6";
+
+    server
+    {
+        server_name _;
+        listen 80;
+        listen [::]:80;
+
+#        listen 443 ssl;
+#        listen [::]:443 ssl;
+
+#        ssl_certificate /etc/nginx/ssl/nginx.crt;
+#        ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
+		root /var/www;
+
+		index index.html;
+
+        location /
+        {
+          try_files $uri $uri/index.html index.html;
+        }
+    }
+
+  {{ range $host, $containers := groupByLabel $ "ktv.infra.proxy.domain" }}
+
+  	{{ $default_host := or ($.Env.DEFAULT_HOST) "" }}
+  	{{ $default_server := index (dict $host "" $default_host "default_server") $host }}
+
+  	{{ $proto := "http" }}
+
+    upstream {{ $host }} {
+
+    {{ range $index, $value := $containers }}
+
+        {{ $network := index $value.Networks 0 }}
+
+        server {{ $network.IP }}:{{ or (index $value.Labels "ktv.infra.proxy.port") "80" }};
+    {{ end }}
+    }
+
+	server {
+    	server_name {{ $host }}.*;
+    	listen 80;
+        listen [::]:80;
+
+#        listen 443 ssl;
+#        listen [::]:443 ssl;
+
+#        ssl_certificate /etc/nginx/ssl/nginx.crt;
+#        ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
+    	location / {
+    		proxy_pass {{ trim $proto }}://{{ trim $host }};
+
+    		auth_basic	"Restricted {{ $host }}";
+    		auth_basic_user_file "/etc/nginx/.htpasswd";
+    	}
+    }
+
+{{end}}
+
+
+}
