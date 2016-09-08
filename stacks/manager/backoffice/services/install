@@ -6,12 +6,15 @@ if [ -d "$WORKING_DIR" ]; then rm -Rf $WORKING_DIR; fi
 
 mkdir $WORKING_DIR
 
-wget -qO- https://github.com/kinoulink/backoffice/archive/${APP_VERSION:master}.tar.gz  | tar xvz -C $WORKING_DIR
+echo "Downloading sources ..."
 
-git clone https://github.com/kinoulink/backoffice.git $WORKING_DIR
+wget -qO- https://github.com/kinoulink/backoffice/archive/${APP_VERSION:master}.tar.gz \
+    | tar xz -C $WORKING_DIR --strip-components=1
 
 cd $WORKING_DIR
 
-composer install
+composer install --prefer-dist
+
+composer dump-autoload --optimize
 
 chown www-data:www-data -R $WORKING_DIR

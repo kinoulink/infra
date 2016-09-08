@@ -8,15 +8,18 @@ RUN apt-get update && \
 					nginx-light && \
 	apt-get clean
 
+RUN rm -rf /var/lib/apt/lists/*
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN mkdir /run/php /etc/service/nginx /etc/service/php
 
-ADD services/nginx      /etc/service/nginx/run
-ADD services/php        /etc/service/php/run
-ADD services/cron       /etc/cron.d/ktv
-ADD services/init       /etc/my_init.d/install
-ADD services/install    /opt/ktv/bin/install
+ADD services/nginx      	/etc/service/nginx/run
+ADD services/php        	/etc/service/php/run
+ADD services/cron       	/etc/cron.d/ktv
+ADD services/init       	/etc/my_init.d/install
+ADD services/install    	/opt/ktv/bin/install
+ADD services/functions    	/opt/ktv/bin/functions
 
 RUN echo "source /opt/ktv/bin/functions" >> ~/.bashrc
 
