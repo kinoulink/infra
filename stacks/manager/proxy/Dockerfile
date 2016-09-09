@@ -3,8 +3,11 @@ FROM phusion/baseimage:0.9.19
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends \
 		nginx \
-		wget && \
-	apt-get clean autoclean && \
+		wget
+
+RUN apt-get upgrade -y libc6:amd64
+
+RUN	apt-get clean autoclean && \
 	apt-get autoremove -y && \
 	rm -rf /var/lib/apt/lists/*
 

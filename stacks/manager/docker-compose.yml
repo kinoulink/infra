@@ -5,7 +5,6 @@ services:
   proxy:
     build: proxy
     image: kinoulink/proxy
-    mem_limit: 52428800
     ports:
       - 80:80
       - 443:443
@@ -17,7 +16,6 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    mem_limit: 52428800
     container_name: ktv_phpmyadmin
     hostname: phpmyadmin
     ports:
@@ -30,7 +28,6 @@ services:
   rsync:
     image: kinoulink/sync
     build: rsync
-    mem_limit: 52428800
     privileged: true
     restart: always
     ports:
@@ -38,7 +35,6 @@ services:
 
   backoffice:
     image: kinoulink/backoffice
-    mem_limit: 268435456
     build: backoffice
     container_name: ktv_backoffice
     hostname: backoffice
