@@ -17,11 +17,10 @@
                     <th>Container(s)</th>
                 </tr>
             </thead>
-            {{ $url := ".qwant.local" }}
             {{ range $host, $containers := groupByLabel $ "ktv.infra.proxy.domain" }}
             <tr>
                 <td>{{ $host }}</td>
-                <td><a class="proxy_link" href="//{{ $host }}{{ $url }}" title="{{ $host }}">{{ $host }}{{ $url }}</a></td>
+                <td><a class="proxy_link" href="//{{ $host }}" title="{{ $host }}">{{ $host }}</a></td>
                 <td>
                     <ul>
                     {{ range $index, $value := $containers }}
@@ -43,22 +42,14 @@
     <script>
         $(function()
         {
-            var host = location.host, env = 'prod';
-
-            if (host.indexOf('.local.') > 0)
-            {
-                env = 'local';
-            }
-            else if (host.indexOf('.dev.') > 0)
-            {
-                env = 'dev';
-            }
-
             $('a.proxy_link').each(function()
             {
-                var url = $(this).attr('href').replace('(ENV)', env);
+                var url = $(this).attr('href') + '.' + location.host;
 
-                $(this).attr('href', url).html(url);
+                $(this)
+                    .attr('href', url)
+                    .html(url)
+                ;
             });
         });
     </script>
