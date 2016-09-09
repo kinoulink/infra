@@ -2,19 +2,35 @@ version: "2"
 
 services:
 
+  proxy:
+    build: proxy
+    image: kinoulink/proxy
+    mem_limit: 52428800
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    container_name: ktv_manager_proxy
+    environment:
+        - HTTP_AUTH_PASSWORD=$KTV_MANAGER_PASSWORD
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    mem_limit: 268435456
+    mem_limit: 52428800
     container_name: ktv_phpmyadmin
     hostname: phpmyadmin
     ports:
       - 8080:80
     environment:
       - PMA_HOST=node-1.docker.ktv.internal
+    labels:
+        ktv.infra.proxy.domain: 'phpmyadmin'
 
   rsync:
     image: kinoulink/sync
-    mem_limit: 268435456
+    build: rsync
+    mem_limit: 52428800
     privileged: true
     restart: always
     ports:
@@ -22,16 +38,17 @@ services:
 
   backoffice:
     image: kinoulink/backoffice
+    mem_limit: 268435456
+    build: backoffice
     container_name: ktv_backoffice
     hostname: backoffice
-    mem_limit: 268435456
-    ports:
-      - 80:80
     environment:
       - APP_VERSION=master
     volumes:
       - composer_cache:/opt/ktv/composer/cache
       - backoffice_www:/opt/ktv/volume
+    labels:
+        ktv.infra.proxy.domain: 'backoffice'
 
 volumes:
 
