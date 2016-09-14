@@ -1,7 +1,7 @@
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.16
 
 RUN apt-get update && \
-	apt-get install -y \
+	apt-get install -y --no-install-recommends \
 		nginx \
 		wget
 
