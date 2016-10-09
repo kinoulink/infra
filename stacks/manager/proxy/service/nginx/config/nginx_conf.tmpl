@@ -55,7 +55,7 @@ http
   	{{ $default_server := index (dict $host "" $default_host "default_server") $host }}
     {{ $default_container := index $containers 0}}
     {{ $proto := or (index $default_container.Labels "ktv.infra.proxy.protocol") "http" }}
-    {{ $port := or (index $default_containercat.Labels "ktv.infra.proxy.port") "80" }}
+    {{ $port := or (index $default_container.Labels "ktv.infra.proxy.port") "80" }}
 
     upstream {{ $host }} {
 
