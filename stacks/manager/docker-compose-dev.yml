@@ -28,6 +28,8 @@ services:
     volumes:
       - rancher_mysql:/var/lib/mysql
       - rancher_cattle:/var/lib/cattle
+    ports:
+      - 8080:8080
     labels:
       ktv.infra.proxy.domain: 'rancher'
       ktv.infra.proxy.port: '8080'
@@ -45,7 +47,6 @@ services:
     image: kinoulink/sync
     build: rsync
     privileged: true
-    restart: always
     ports:
       - 873:873
 

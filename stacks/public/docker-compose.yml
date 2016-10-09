@@ -7,12 +7,14 @@ services:
     container_name: ktv_app
     hostname: app
     mem_limit: 268435456
+    network: host
     links:
       - mysql:mysql
     volumes:
-      - /opt/ktv/shares/app/dev:/var/www:ro
+      - /:/var/www:ro
     ports:
       - 80:80
+    volume_driver: convoy-efs
     environment:
       - KTV_ENV=$KTV_ENV
       - KTV_RELEASE=beta
@@ -28,6 +30,8 @@ services:
       - mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=$KTV_MYSQL_ROOT_PASSWORD
+    labels:
+      io.rancher.container.network: true
 
 volumes:
 

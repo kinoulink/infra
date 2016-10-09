@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:0.9.19
 
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends \
@@ -21,7 +21,8 @@ ADD service/gen             /etc/service/gen
 ADD service/nginx           /etc/service/nginx
 ADD www                     /var/www
 
-RUN chown -R www-data /var/www
+RUN chown -R www-data /var/www && \
+    rm -rf /etc/service/sys* /etc/service/cron /etc/service/sshd
 
 EXPOSE 80
 EXPOSE 443

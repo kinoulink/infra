@@ -8,13 +8,14 @@ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sour
 
 apt-get update
 
-apt-get install -y linux-image-extra-$(uname -r)
+#apt-get install -y linux-image-extra-$(uname -r)
 
-apt-get install -y apparmor
+#apt-get install -y apparmor
 
 apt-get install -y docker-engine
 
 usermod -aG docker kinoulink
+usermod -aG docker ubuntu
 
 curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 

@@ -18,9 +18,3 @@ chown kinoulink /var/kinoulink
 
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 echo "export LC_ALL=en_US.UTF-8" >> /root/.bashrc
-
-cd /tmp
-
-wget -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=6.16.1&source=github-rel"
-
-dpkg -i ./cf.deb

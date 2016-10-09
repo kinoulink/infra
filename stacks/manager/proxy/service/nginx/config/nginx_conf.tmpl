@@ -20,7 +20,7 @@ http
   default_type application/octet-stream;
 
   access_log off;
-  error_log stderr;
+  error_log /dev/stderr;
 
 	client_max_body_size 999M;
 
@@ -53,16 +53,17 @@ http
 
   	{{ $default_host := or ($.Env.DEFAULT_HOST) "" }}
   	{{ $default_server := index (dict $host "" $default_host "default_server") $host }}
-
-  	{{ $proto := "http" }}
+    {{ $default_container := index $containers 0}}
+    {{ $proto := or (index $default_container.Labels "ktv.infra.proxy.protocol") "http" }}
+    {{ $port := or (index $default_containercat.Labels "ktv.infra.proxy.port") "80" }}
 
     upstream {{ $host }} {
 
     {{ range $index, $value := $containers }}
 
-        {{ $network := index $value.Networks 0 }}
+        {{ $network := index $value.IP }}
 
-        server {{ $network.IP }}:{{ or (index $value.Labels "ktv.infra.proxy.port") "80" }};
+        server {{ $network }}:{{ or (index $value.Labels "ktv.infra.proxy.port") "80" }};
     {{ end }}
     }
 

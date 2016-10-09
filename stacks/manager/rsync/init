@@ -6,4 +6,8 @@ mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=
 
 mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).fs-5785709e.efs.eu-west-1.amazonaws.com:/ /opt/ktv/shares/server
 
+mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).fs-5785709e.efs.eu-west-1.amazonaws.com:/ /opt/ktv/shares/server
+
+mount -t nfs -o nfsvers=4.1 eu-west-1a.fs-5785709e.efs.eu-west-1.amazonaws.com:/ /var/lib/rancher/convoy/convoy-efs-1ff35f79-92c6-4208-9ee1-41360b9bd210/mnt
+
 chown www-data:www-data -R /opt/ktv/shares
