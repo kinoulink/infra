@@ -10,34 +10,37 @@ services:
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    container_name: ktv_manager_proxy
     environment:
         - HTTP_AUTH_PASSWORD=admin
+    restart: always
 
   vpn:
     image: kylemanna/openvpn
     volumes:
       - vpn_config:/etc/openvpn
     ports:
-         - "1194:1194/udp"
+      - "1194:1194/udp"
     cap_add:
-         - NET_ADMIN
+      - NET_ADMIN
+    extra_hosts:
+      - "vpn.admin.affichage.cloud:127.0.0.1"
+    restart: always
 
   rancher:
     image: rancher/server:v1.1.3
     volumes:
       - rancher_mysql:/var/lib/mysql
       - rancher_cattle:/var/lib/cattle
+    restart: always
     labels:
       ktv.infra.proxy.domain: 'rancher'
       ktv.infra.proxy.port: '8080'
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: ktv_phpmyadmin
-    hostname: phpmyadmin
     environment:
       - PMA_HOST=node-1.docker.ktv.internal
+    restart: always
     labels:
         ktv.infra.proxy.domain: 'phpmyadmin'
 
