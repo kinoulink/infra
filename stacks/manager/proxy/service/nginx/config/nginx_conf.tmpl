@@ -39,7 +39,7 @@ http
 #        ssl_certificate /etc/nginx/ssl/nginx.crt;
 #        ssl_certificate_key /etc/nginx/ssl/nginx.key;
 
-		root /var/www;
+		root /var/www/;
 
 		index index.html;
 
@@ -61,9 +61,9 @@ http
 
     {{ range $index, $value := $containers }}
 
-        {{ $network := index $value.IP }}
+        {{ $network := index $value.Networks 0 }}
 
-        server {{ $network }}:{{ or (index $value.Labels "ktv.infra.proxy.port") "80" }};
+        server {{ $network.IP }}:{{ or (index $value.Labels "ktv.infra.proxy.port") "80" }};
     {{ end }}
     }
 
