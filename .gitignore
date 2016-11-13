@@ -2,3 +2,4 @@
 .DS_Store
 .vagrant
 stacks/manager/vars.sh
+stacks/public/vars.sh
