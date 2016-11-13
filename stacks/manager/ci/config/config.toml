@@ -1,0 +1,15 @@
+concurrent = 1
+
+[[runners]]
+  name = "AWS Docker runner"
+  url = "https://votre.domain.gitlab/ci"
+  token = "4d5478b71ffcb094d8b2d34c244a4b"
+  executor = "docker"
+  [runners.docker]
+    tls_verify = false
+    image = "ruby:2.1"
+    privileged = false
+    disable_cache = false
+    volumes = ["/cache"]
+  [runners.cache]
+    Insecure = false

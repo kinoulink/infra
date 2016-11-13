@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+DOCKER_HOST="mon.affichage.cloud:2375"
+
+#export AWS_ACCESS_KEY_ID="AKIAJGBKPUD7AYLCGLBA"
+#export AWS_SECRET_ACCESS_KEY="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"

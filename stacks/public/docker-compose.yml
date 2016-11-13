@@ -14,7 +14,6 @@ services:
       - /:/var/www:ro
     ports:
       - 80:80
-    volume_driver: convoy-efs
     environment:
       - KTV_ENV=$KTV_ENV
       - KTV_RELEASE=beta
